@@ -1,4 +1,5 @@
 from datetime import date, timedelta
+import requests
 
 
 class Student:
@@ -21,6 +22,17 @@ class Student:
     @property
     def email(self):
         return f"{self._first_name}.{self._last_name}@email.com".lower()
+
+    def apply_extension(self, num_days):
+        self._end_date = self._end_date + timedelta(num_days)
+
+    def course_schedule(self):
+        response = requests.get(f"https://mocksite.com/schedule/{self._first_name + self._last_name}")
+
+        if response.ok:
+            return response.text
+        else:
+            return "Something went wrong!"
 
 
 if __name__ == '__main__':
